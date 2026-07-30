@@ -38,6 +38,28 @@ app.post('/auth/login', async (req,res) => {
     user: data.user,
   })
 })
+
+app.get('/public/info', (req, res) => {
+  return res.status(200).json({ message: 'Welcome stranger! This info is public.' })
+})
+
+app.get('/protected/profile', (req, res) => {
+  const authHeader = req.headers['authorization']
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Access token required' })
+  }
+
+  const token = authHeader.split(' ')[1]
+
+  if (!token) {
+    return res.status(401).json({ error: 'Access token required' })
+  }
+
+  // Token exists and is formatted correctly — actual verification comes in Stage 3
+  return res.status(200).json({ message: 'Token received (not yet verified)' })
+})
+
 async function startServer() {
   const { error } = await supabase.auth.getSession()
   if (error) {
