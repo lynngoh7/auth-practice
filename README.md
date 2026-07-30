@@ -109,7 +109,7 @@ curl -i http://localhost:3000/protected/profile \
 
 The `/docs` route exposes full interactive documentation. Protected routes are marked with a padlock icon, and requests can be authorized directly in the browser via the **Authorize** button.
 
-![swagger-ui-screenshot]
+![Swagger-UI] (swagger-ui-screenshot.png)
 
 ## Tech stack
 
