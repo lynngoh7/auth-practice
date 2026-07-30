@@ -1,4 +1,6 @@
 require('dotenv').config()
+const swaggerUi = require('swagger-ui-express')
+const openapiSpec = require('./openapi.json')
 const express = require('express')
 const { supabase } = require('./lib/supabaseClient')
 const { refresh } = require('next/cache')
@@ -69,9 +71,9 @@ app.get('/public/info', (req, res) => {
 
 app.get('/protected/profile', requireAuth, async (req, res) => {
   return res.status(200).json({
-    id: data.user.id,
-    email: data.user.email,
-    created_at: data.user.created_at,
+    id: req.user.id,
+    email: req.user.email,
+    created_at: req.user.created_at,
   })
 })
 
@@ -102,5 +104,7 @@ async function startServer() {
     console.log('Server running and connected to Supabase')
   })
 }
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpec))
 
 startServer()
